@@ -7,6 +7,7 @@ import io.hhplus.architecture.lecture.domain.repository.LectureOptionRepository;
 import io.hhplus.architecture.lecture.domain.repository.LectureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class LectureService {
     private final LectureOptionRepository lectureOptionRepository;
     private final LectureApplicantRepository lectureApplicantRepository;
 
+    @Transactional
     public LectureApplicant applyLecture(long lectureOptionId, long userId) {
         // 예외 - 기존에 신청한 경우
         lectureApplicantRepository.findByUserIdAndLectureOptionId(userId, lectureOptionId)
@@ -42,10 +44,12 @@ public class LectureService {
         return lectureApplicantRepository.apply(new LectureApplicant(lectureOption, userId));
     }
 
+    @Transactional(readOnly = true)
     public List<LectureOption> getLectures() {
         return lectureOptionRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public List<LectureApplicant> getAppliedLecturesByUser(long userId) {
         return lectureApplicantRepository.findAllByUserId(userId);
     }
