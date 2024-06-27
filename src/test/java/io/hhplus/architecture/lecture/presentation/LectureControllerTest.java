@@ -24,8 +24,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-// TODO: andExpect 부분에 추가 검증을 할 것인가..?
-
 /**
  * MockMvc 사용하여 엔드포인트 요청 테스트 및 정상 응답에 대한 검증
  */
