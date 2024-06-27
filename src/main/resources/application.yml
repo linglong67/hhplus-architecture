@@ -1,3 +1,21 @@
 spring:
   application:
     name: hhplus-architecture
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        ddl-auto: create
+        format_sql: true
+        show_sql: true
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+          implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
