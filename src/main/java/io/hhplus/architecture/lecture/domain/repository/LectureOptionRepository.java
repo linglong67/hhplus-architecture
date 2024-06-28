@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface LectureOptionRepository {
     List<LectureOption> findAll();
 
+    Optional<LectureOption> findByIdWithPessimisticLock(long id);
+
     Optional<LectureOption> findById(long id);
 
     LectureOption save(LectureOption lectureOption);

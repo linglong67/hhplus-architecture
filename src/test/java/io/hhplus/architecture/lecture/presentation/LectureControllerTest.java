@@ -1,6 +1,7 @@
 package io.hhplus.architecture.lecture.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.hhplus.architecture.config.TestConfig;
 import io.hhplus.architecture.lecture.application.LectureService;
 import io.hhplus.architecture.lecture.domain.Lecture;
 import io.hhplus.architecture.lecture.domain.LectureApplicant;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * MockMvc 사용하여 엔드포인트 요청 테스트 및 정상 응답에 대한 검증
  */
+@Import(TestConfig.class)
 @WebMvcTest(LectureController.class)
 class LectureControllerTest {
 

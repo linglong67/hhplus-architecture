@@ -60,7 +60,7 @@ class LectureServiceTest {
         LectureApplicant expected = new LectureApplicant(lectureApplicantId, lectureOption, userId);
 
         //when
-        when(lectureOptionRepository.findById(lectureOptionId)).thenReturn(Optional.of(lectureOption));
+        when(lectureOptionRepository.findByIdWithPessimisticLock(lectureOptionId)).thenReturn(Optional.of(lectureOption));
         when(lectureApplicantRepository.apply(new LectureApplicant(lectureOption, userId))).thenReturn(expected);
 
         //then
