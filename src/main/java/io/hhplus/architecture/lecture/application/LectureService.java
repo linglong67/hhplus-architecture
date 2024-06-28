@@ -29,7 +29,7 @@ public class LectureService {
 
         // 예외 - 존재하지 않는 특강 옵션인 경우
         LectureOption lectureOption =
-                lectureOptionRepository.findById(lectureOptionId)
+                lectureOptionRepository.findByIdWithPessimisticLock(lectureOptionId)
                                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 특강입니다."));
 
         // 예외 - 특강 최대 정원만큼 신청된 경우

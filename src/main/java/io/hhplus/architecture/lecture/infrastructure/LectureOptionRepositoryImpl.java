@@ -20,8 +20,8 @@ public class LectureOptionRepositoryImpl implements LectureOptionRepository {
     }
 
     @Override
-    public Optional<LectureOption> findById(long id) {
-        return repository.findById(id);
+    public Optional<LectureOption> findByIdWithPessimisticLock(long id) {
+        return repository.findByIdWithPessimisticLock(id);
     }
 
     @Override
