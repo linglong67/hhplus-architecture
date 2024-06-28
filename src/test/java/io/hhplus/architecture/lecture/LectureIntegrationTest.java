@@ -9,8 +9,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -22,8 +20,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@Transactional
-public class LectureIntegrationTest {
+class LectureIntegrationTest {
 
     @Autowired
     private LectureService lectureService;
@@ -33,9 +30,6 @@ public class LectureIntegrationTest {
 
     @Autowired
     private LectureOptionRepository lectureOptionRepository;
-
-    @Autowired
-    private TransactionTemplate transactionTemplate;
 
     @Test
     @DisplayName("특강 신청 - 비관적 락 테스트")
@@ -47,7 +41,7 @@ public class LectureIntegrationTest {
         LocalDate lectureDate = LocalDate.of(2024, 7, 1);
         LocalTime startTime = LocalTime.of(13, 0);
         LocalTime endTime = LocalTime.of(18, 0);
-        Long maxCapacity = 3L;
+        Long maxCapacity = 10L;
         Long appliedCount = 0L;
 
         Lecture lecture = new Lecture(title, speaker);
@@ -57,10 +51,10 @@ public class LectureIntegrationTest {
                 lecture, lectureDate, startTime, endTime, maxCapacity, appliedCount);
         lectureOptionRepository.save(lectureOption);
 
-        AtomicLong userId = new AtomicLong(1L);
-
-        final int threadCount = 10;
-        final ExecutorService executorService = Executors.newFixedThreadPool(5);
+        //when
+        final AtomicLong userId = new AtomicLong(1L);
+        final int threadCount = 100;
+        final ExecutorService executorService = Executors.newFixedThreadPool(32);
         final CountDownLatch latch = new CountDownLatch(threadCount);
 
         for (int i = 0; i < threadCount; i++) {
@@ -75,6 +69,7 @@ public class LectureIntegrationTest {
 
         latch.await();
 
+        //then
         final LectureOption lo = lectureOptionRepository.findById(1L).get();
         assertThat(lo.getAppliedCount()).isEqualTo(lo.getMaxCapacity());
     }
