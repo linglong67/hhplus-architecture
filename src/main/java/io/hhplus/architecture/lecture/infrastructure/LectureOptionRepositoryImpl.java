@@ -25,7 +25,12 @@ public class LectureOptionRepositoryImpl implements LectureOptionRepository {
     }
 
     @Override
+    public Optional<LectureOption> findById(long id) {
+        return repository.findById(id);
+    }
+
+    @Override
     public LectureOption save(LectureOption lectureOption) {
-        return repository.save(lectureOption);
+        return repository.saveAndFlush(lectureOption);
     }
 }

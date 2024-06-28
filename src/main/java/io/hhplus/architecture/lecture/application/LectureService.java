@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,9 +29,12 @@ public class LectureService {
                                   });
 
         // 예외 - 존재하지 않는 특강 옵션인 경우
-        LectureOption lectureOption =
-                lectureOptionRepository.findByIdWithPessimisticLock(lectureOptionId)
-                                       .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 특강입니다."));
+        Optional<LectureOption> lo = lectureOptionRepository.findByIdWithPessimisticLock(lectureOptionId);
+        if (lo.isEmpty()) {
+            throw new IllegalArgumentException("존재하지 않는 특강입니다.");
+        }
+
+        LectureOption lectureOption = lo.get();
 
         // 예외 - 특강 최대 정원만큼 신청된 경우
         lectureOption.isFull();

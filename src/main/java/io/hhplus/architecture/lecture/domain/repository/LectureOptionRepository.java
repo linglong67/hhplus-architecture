@@ -10,5 +10,7 @@ public interface LectureOptionRepository {
 
     Optional<LectureOption> findByIdWithPessimisticLock(long id);
 
+    Optional<LectureOption> findById(long id);
+
     LectureOption save(LectureOption lectureOption);
 }
