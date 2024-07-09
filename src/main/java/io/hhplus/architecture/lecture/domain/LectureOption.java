@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.Objects;
 
 @Getter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LectureOption {
     @Id
@@ -49,6 +51,15 @@ public class LectureOption {
 
     public LectureOption(Long id, Lecture lecture, LocalDate lectureDate, LocalTime startTime, LocalTime endTime, Long maxCapacity, Long appliedCount) {
         this.id = id;
+        this.lecture = lecture;
+        this.lectureDate = lectureDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.maxCapacity = maxCapacity;
+        this.appliedCount = appliedCount;
+    }
+
+    public LectureOption(Lecture lecture, LocalDate lectureDate, LocalTime startTime, LocalTime endTime, Long maxCapacity, Long appliedCount) {
         this.lecture = lecture;
         this.lectureDate = lectureDate;
         this.startTime = startTime;
